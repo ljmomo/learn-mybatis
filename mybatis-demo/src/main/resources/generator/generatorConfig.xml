@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--本地数据库驱动-->
+    <classPathEntry location="E:\.m2\repository\mysql\mysql-connector-java\6.0.6\mysql-connector-java-6.0.6.jar"/>
+    <context id="MysqlTables" targetRuntime="MyBatis3">
+        <!--去除注释  -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/junli?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"
+                        userId="root"
+                        password="123456">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!--实体存放位置-->
+        <javaModelGenerator targetPackage="com.junli.mybatis.beans"
+                            targetProject="G:\learnworkspace\learn-mybatis\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!--XML存放位置-->
+        <sqlMapGenerator targetPackage="xml" targetProject="G:\learnworkspace\learn-mybatis\src\main\resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!--Mapper存放位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.junli.mybatis.mapper"
+                             targetProject="G:\learnworkspace\learn-mybatis\\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+         <!--需要生成的表-->
+        <table schema="junli" tableName="posts" domainObjectName="Posts">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table schema="junli" tableName="test" domainObjectName="Test">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table schema="junli" tableName="blog" domainObjectName="Blog">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+
+        <table schema="junli" tableName="author" domainObjectName="Author">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+
+    </context>
+</generatorConfiguration>
