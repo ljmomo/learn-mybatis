@@ -5,7 +5,7 @@
   <resultMap id="BaseResultMap" type="com.junli.mybatis.beans.Test">
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="nums" jdbcType="INTEGER" property="nums" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="name" jdbcType="VARCHAR" property="name" typeHandler="com.junli.mybatis.demo.mybatis.JunliTypeHandler"/>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>

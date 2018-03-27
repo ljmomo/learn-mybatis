@@ -1,153 +1,252 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.junli.mybatis.mapper.BlogMapper">
-  <resultMap id="BaseResultMap" type="com.junli.mybatis.beans.Blog">
-    <result column="bid" jdbcType="INTEGER" property="bid" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="author_id" jdbcType="INTEGER" property="authorId" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    <resultMap id="BaseResultMap" type="com.junli.mybatis.beans.Blog">
+        <result column="bid" jdbcType="INTEGER" property="bid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="author_id" jdbcType="INTEGER" property="authorId"/>
+        <association property="author" column="author_id" javaType="com.junli.mybatis.beans.Author"
+                     select="selectAuthor"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap_Author" type="com.junli.mybatis.beans.Author">
+        <result column="aid" jdbcType="INTEGER" property="aid"/>
+        <result column="author_name" jdbcType="VARCHAR" property="authorName"/>
+    </resultMap>
+
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
     bid, name, author_id
   </sql>
-  <select id="selectByExample" parameterType="com.junli.mybatis.beans.BlogExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from blog
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <delete id="deleteByExample" parameterType="com.junli.mybatis.beans.BlogExample">
-    delete from blog
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.junli.mybatis.beans.Blog">
+    <select id="selectByExample" parameterType="com.junli.mybatis.beans.BlogExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from blog
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <delete id="deleteByExample" parameterType="com.junli.mybatis.beans.BlogExample">
+        delete from blog
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.junli.mybatis.beans.Blog">
     insert into blog (bid, name, author_id
       )
     values (#{bid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{authorId,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.junli.mybatis.beans.Blog">
-    insert into blog
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="bid != null">
-        bid,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="authorId != null">
-        author_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="bid != null">
-        #{bid,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="authorId != null">
-        #{authorId,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.junli.mybatis.beans.BlogExample" resultType="java.lang.Long">
-    select count(*) from blog
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update blog
-    <set>
-      <if test="record.bid != null">
-        bid = #{record.bid,jdbcType=INTEGER},
-      </if>
-      <if test="record.name != null">
+    <insert id="insertSelective" parameterType="com.junli.mybatis.beans.Blog">
+        insert into blog
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bid != null">
+                bid,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="authorId != null">
+                author_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bid != null">
+                #{bid,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="authorId != null">
+                #{authorId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.junli.mybatis.beans.BlogExample" resultType="java.lang.Long">
+        select count(*) from blog
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map">
+        update blog
+        <set>
+            <if test="record.bid != null">
+                bid = #{record.bid,jdbcType=INTEGER},
+            </if>
+            <if test="record.name != null">
+                name = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.authorId != null">
+                author_id = #{record.authorId,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update blog
+        set bid = #{record.bid,jdbcType=INTEGER},
         name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.authorId != null">
-        author_id = #{record.authorId,jdbcType=INTEGER},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update blog
-    set bid = #{record.bid,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      author_id = #{record.authorId,jdbcType=INTEGER}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
+        author_id = #{record.authorId,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+
+
+    <select id="selectAuthor" resultType="com.junli.mybatis.beans.Author" resultMap="BaseResultMap_Author">
+        SELECT * FROM AUTHOR WHERE aid = #{author_id}
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT  * FROM  blog WHERE bid = #{id} ;
+    </select>
+
+    
+    <resultMap id="blogResult" type="com.junli.mybatis.beans.Blog">
+    <result column="bid" jdbcType="INTEGER" property="bid"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="author_id" jdbcType="INTEGER" property="authorId"/>
+    <association property="author" column="author_id" javaType="com.junli.mybatis.beans.Author" resultMap="BaseResultMap_Author2"/>
+</resultMap>
+
+    <resultMap id="BaseResultMap_Author2" type="com.junli.mybatis.beans.Author">
+        <result column="aid" jdbcType="INTEGER" property="aid"/>
+        <result column="author_name" jdbcType="VARCHAR" property="authorName"/>
+    </resultMap>
+
+    <select id="selectBlogById" resultMap="blogResult">
+        SELECT
+        B.bid,
+        B.`name`,
+        B.author_id,
+        A.aid,
+        A.author_name
+        FROM
+        Blog B
+        LEFT OUTER JOIN Author A ON B.author_id = A.aid
+        WHERE
+        B.bid = #{id}
+    </select>
+
+
+
+    <resultMap id="blogResultAndPosts" type="com.junli.mybatis.beans.Blog">
+        <result column="bid" jdbcType="INTEGER" property="bid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="author_id" jdbcType="INTEGER" property="authorId"/>
+        <collection property="posts" javaType="ArrayList" column="bid"
+                    ofType="com.junli.mybatis.beans.Posts" select="selectPostsForBlog"/>
+    </resultMap>
+    
+    <resultMap id="PostsForBlogResult" type="com.junli.mybatis.beans.Posts">
+        <result column="pid" jdbcType="INTEGER" property="pid" />
+        <result column="post_name" jdbcType="VARCHAR" property="postName" />
+        <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    </resultMap>
+
+    <select id="selectBlogAndPosts" resultMap="blogResultAndPosts">
+        SELECT * FROM BLOG WHERE BID = #{id}
+    </select>
+
+    <select id="selectPostsForBlog" resultMap="PostsForBlogResult">
+        SELECT * FROM POSTS WHERE BLOG_ID = #{bid}
+    </select>
+
+
+
+    <resultMap id="blogResultAndPostsResultQuery" type="com.junli.mybatis.beans.Blog">
+        <result column="bid" jdbcType="INTEGER" property="bid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="author_id" jdbcType="INTEGER" property="authorId"/>
+        <collection property="posts" javaType="ArrayList" column="bid" ofType="com.junli.mybatis.beans.Posts">
+            <result column="pid" jdbcType="INTEGER" property="pid" />
+            <result column="post_name" jdbcType="VARCHAR" property="postName" />
+            <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+        </collection>
+    </resultMap>
+
+    <select id="selectBlogAndPostsResultQuery" resultMap="blogResultAndPostsResultQuery">
+        SELECT
+            B.bid,
+            B.`name`,
+            B.author_id,
+            p.pid,
+            p.post_name,
+            p.blog_id
+        FROM
+            Blog B
+        LEFT  JOIN posts p ON p.blog_id = b.bid
+        WHERE
+	        B.bid = #{id}
+    </select>
 </mapper>

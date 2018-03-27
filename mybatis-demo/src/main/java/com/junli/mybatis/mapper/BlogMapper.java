@@ -15,9 +15,19 @@ public interface BlogMapper {
 
     int insertSelective(Blog record);
 
+    Blog selectById(Long id);
+
+    Blog selectBlogById(Long id);
+
+    Blog  selectBlogAndPosts(Long id);
+
+    Blog selectBlogAndPostsResultQuery(Long id);
+
     List<Blog> selectByExample(BlogExample example);
 
     int updateByExampleSelective(@Param("record") Blog record, @Param("example") BlogExample example);
 
     int updateByExample(@Param("record") Blog record, @Param("example") BlogExample example);
+
+
 }

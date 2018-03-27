@@ -1,2 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
 /mybatis-demo/target/
+.idea/
+learn-mybatis.iml
+mybatis-demo/mybatis-demo.iml

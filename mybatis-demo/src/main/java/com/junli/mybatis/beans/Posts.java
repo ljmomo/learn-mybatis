@@ -30,4 +30,13 @@ public class Posts {
     public void setBlogId(Integer blogId) {
         this.blogId = blogId;
     }
+
+    @Override
+    public String toString() {
+        return "Posts{" +
+                "                            pid:" + pid +
+                ",                             postName:'" + postName + '\'' +
+                ",                             blogId:" + blogId +
+                '}';
+    }
 }

@@ -1,7 +1,9 @@
 package com.junli.mybatis.demo.mybatis;
 
+import com.junli.mybatis.beans.Blog;
 import com.junli.mybatis.beans.Posts;
 import com.junli.mybatis.beans.Test;
+import com.junli.mybatis.mapper.BlogMapper;
 import com.junli.mybatis.mapper.PostsMapper;
 import com.junli.mybatis.mapper.TestMapper;
 import org.apache.ibatis.session.SqlSession;
@@ -12,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.List;
 
 public class MyBatisDemo {
     private static SqlSessionFactory sqlSessionFactory;
@@ -20,7 +23,7 @@ public class MyBatisDemo {
         //配置文件
 //        InputStream configFile = new FileInputStream(
 //                "E:\\workspace\\code\\git\\gupaoedu-mybatis\\src\\main\\java\\com\\gupaoedu\\mybatis\\demo\\mybatis-config.xml");
-        String resource = "G:\\learnworkspace\\learn-mybatis\\src\\main\\java\\com\\junli\\mybatis\\demo\\mybatis\\mybatis-config.xml";
+        String resource = "G:\\learnworkspace\\learn-mybatis\\mybatis-demo\\src\\main\\java\\com\\junli\\mybatis\\demo\\mybatis\\mybatis-config.xml";
         InputStream configFile = new  FileInputStream(resource);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configFile);
         //加载配置文件得到SqlSessionFactory
@@ -28,7 +31,7 @@ public class MyBatisDemo {
     }
 
     public static SqlSessionFactory getSqlSessionFactory() throws FileNotFoundException {
-        InputStream configFile = new FileInputStream("G:\\learnworkspace\\learn-mybatis\\src\\main\\java\\com\\junli\\mybatis\\demo\\mybatis\\mybatis-config.xml");
+        InputStream configFile = new FileInputStream("G:\\learnworkspace\\learn-mybatis\\mybatis-demo\\src\\main\\java\\com\\junli\\mybatis\\demo\\mybatis\\mybatis-config.xml");
         if (null != sqlSessionFactory) {
             return sqlSessionFactory;
         }
@@ -76,6 +79,41 @@ public class MyBatisDemo {
         return posts;
     }
 
+    //获取BLOG(关联查询)
+    public static Blog getOneBlog(SqlSession sqlSession, Long id) throws SQLException {
+        BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
+        long start = System.currentTimeMillis();
+        Blog blog = blogMapper.selectById(id);
+        System.out.println("cost:" + (System.currentTimeMillis() - start));
+        return blog;
+    }
+
+
+    //获取BLOG（嵌套结果）
+    public static Blog getOneBlogById(SqlSession sqlSession, Long id) throws SQLException {
+        BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
+        long start = System.currentTimeMillis();
+        Blog blog = blogMapper.selectBlogById(id);
+        System.out.println("cost:" + (System.currentTimeMillis() - start));
+        return blog;
+    }
+
+    //获取BLOG集合(关联查询)
+    public static Blog selectPostsForBlog(SqlSession sqlSession, Long id) throws SQLException{
+        BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
+        long start = System.currentTimeMillis();
+        Blog blog = blogMapper.selectBlogAndPosts(id);
+        System.out.println("cost:" + (System.currentTimeMillis() - start));
+        return blog;
+    }
+    //获取BLOG集合（嵌套结果）
+    public static Blog selectBlogAndPostsResultQuery(SqlSession sqlSession, Long id) throws SQLException{
+        BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
+        long start = System.currentTimeMillis();
+        Blog blog = blogMapper.selectBlogAndPostsResultQuery(id);
+        System.out.println("cost:" + (System.currentTimeMillis() - start));
+        return blog;
+    }
 
     public static int insert(SqlSession sqlSession, Test test) {
         TestMapper testMapper = sqlSession.getMapper(TestMapper.class);
@@ -86,9 +124,25 @@ public class MyBatisDemo {
         SqlSession sqlSession = getSqlSession();
         try {
 //            diffSession();
-           System.out.println(getOne(sqlSession, 1));
+           // System.out.println(getOne(sqlSession, 1));
+            //Blog oneBlog = getOneBlog(sqlSession, 1L);
+            //获取博客
+            //System.out.println("关联查询博客："+oneBlog);
+
+           // Blog oneBlog2 = getOneBlogById(sqlSession, 1L);
+            //System.out.println("嵌套结果博客："+oneBlog);
+
+
+            Blog blog = selectPostsForBlog(sqlSession, 1L);
+            List<Posts> posts = blog.getPosts();
+            System.out.println("博客和帖子关联查询："+blog);
+            System.out.println("博客和帖子关联查询帖子："+posts);
+
+            Blog blog1 = selectBlogAndPostsResultQuery(sqlSession,1L);
+            System.out.println("博客和帖子嵌套结果："+blog);
+            System.out.println("博客和帖子嵌套结果帖子："+posts);
 //            System.out.println(getPosts(sqlSession, 1));
-    //System.out.println(insert(sqlSession, new Test(null, 66, "test insert")));
+        //System.out.println(insert(sqlSession, new Test(null, 66, "test insert")));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

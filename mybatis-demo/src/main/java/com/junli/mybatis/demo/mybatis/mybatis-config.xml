@@ -6,7 +6,19 @@
     <settings>
         <setting name="logImpl" value="SLF4J"/>
         <!--<setting name="cacheEnabled" value="true" />-->
+
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+
     </settings>
+
+   <!-- <typeHandlers>
+        <typeHandler handler="com.junli.mybatis.demo.mybatis.JunliTypeHandler"/>
+    </typeHandlers>
+-->
+    <plugins>
+        <plugin interceptor="com.junli.mybatis.demo.mybatis.JunliPlugin"/>
+    </plugins>
+
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
@@ -18,8 +30,10 @@
             </dataSource>
         </environment>
     </environments>
+
     <mappers>
         <mapper resource="xml/TestMapper.xml"/>
         <mapper resource="xml/PostsMapper.xml"/>
+        <mapper resource="xml/BlogMapper.xml"/>
     </mappers>
 </configuration>
