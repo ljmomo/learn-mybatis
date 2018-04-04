@@ -10,6 +10,7 @@ import org.apache.ibatis.session.RowBounds;
 import java.util.Properties;
 
 /**
+ * JunliPlugin
  * @author lijun
  * @since 2018-03-26 16:41
  */

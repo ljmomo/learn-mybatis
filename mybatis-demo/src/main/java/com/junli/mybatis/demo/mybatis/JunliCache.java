@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * 自定义缓存
+ * 自定义缓存 JunliCache
  */
 public class JunliCache implements Cache {
     private ReadWriteLock lock = new ReentrantReadWriteLock();

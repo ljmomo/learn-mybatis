@@ -3,3 +3,6 @@
 .idea/
 learn-mybatis.iml
 mybatis-demo/mybatis-demo.iml
+/mybatis-self/target/
+mybatis-self/mybatis-self.iml
+mybatis-self/target/

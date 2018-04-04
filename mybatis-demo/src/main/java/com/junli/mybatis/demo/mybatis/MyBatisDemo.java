@@ -14,7 +14,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.List;
 
 public class MyBatisDemo {
     private static SqlSessionFactory sqlSessionFactory;
@@ -133,7 +132,7 @@ public class MyBatisDemo {
             //System.out.println("嵌套结果博客："+oneBlog);
 
 
-            Blog blog = selectPostsForBlog(sqlSession, 1L);
+        /*    Blog blog = selectPostsForBlog(sqlSession, 1L);
             List<Posts> posts = blog.getPosts();
             System.out.println("博客和帖子关联查询："+blog);
             System.out.println("博客和帖子关联查询帖子："+posts);
@@ -141,7 +140,10 @@ public class MyBatisDemo {
             Blog blog1 = selectBlogAndPostsResultQuery(sqlSession,1L);
             System.out.println("博客和帖子嵌套结果："+blog);
             System.out.println("博客和帖子嵌套结果帖子："+posts);
-//            System.out.println(getPosts(sqlSession, 1));
+            System.out.println(getPosts(sqlSession, 1));
+*/
+            System.out.println(getOne(sqlSession, 1));
+            System.out.println(getOne(sqlSession, 1));
         //System.out.println(insert(sqlSession, new Test(null, 66, "test insert")));
         } catch (Exception e) {
             e.printStackTrace();
